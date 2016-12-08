@@ -53,6 +53,7 @@ $str = '<!DOCTYPE html>
         <li>列表2</li>
         <li>列表3</li>
     </ul>
+    <img src="aaa">
 </body>
 </html>';
 
