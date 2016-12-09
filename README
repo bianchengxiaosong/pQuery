@@ -18,8 +18,8 @@
 获取内容方法为
 	$pquery = new pQuery($html);
 	获取多条内容 htmls()
-		$htmls = $pquery->find('.class_p')->find(a)->htmls();
-		$htmls = $pquery->find('.class_p')->find(p)->htmls(function($key,$html){
+		$htmls = $pquery->find('.class_p')->find('a')->htmls();
+		$htmls = $pquery->find('.class_p')->find('p')->htmls(function($key,$html){
 			//$key 代表索引
 			//$html 符合选择器的内容
 			return strtoupper($html);
