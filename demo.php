@@ -60,7 +60,7 @@ $str = '<!DOCTYPE html>
 //引入pqury的类文件
 include_once('./pquery.php');
 
-var_dump(strlen($str));
+//实例化
 $pquery = new Pquery($str);
 
 //htmls 和 html 方法使用

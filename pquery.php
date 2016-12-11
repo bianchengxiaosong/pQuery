@@ -5,6 +5,8 @@
  * 开发者QQ 1847537660 如有问题 请加QQ联系并备注为pQuery 本人将尽快帮你解决
  */
 //php版query类实现文件
+include_once('./CreateTagTree.php');
+
 class Pquery{
     private $tag_tree = array(); //标签树结构
     private $html = ''; //html内容
@@ -364,140 +366,5 @@ class TagsByAttr{
         }
 
         return $tags;
-    }
-}
-
-//解析标签获取标签树的类
-class CreateTagTree{
-    private $html = '';
-    private $queue_tags = array();
-    public function __construct($html = ''){
-        $this->setHtml($html);
-        $this->setQueueTags();
-    }
-
-    //设置html内容 用于过滤注释 script style
-    private function setHtml($html = ''){
-        $html = trim($html); //去空格
-        if(empty(stripos('</html>',$html))){
-            $html .= '</html>';
-        }
-        preg_match("/<html.*?>(.*?)<\/html>/is",$html,$match);
-        $html = $match[0];
-        $clear_tags = array("/<script(.*?)>.*?<\/script>/is","/<\!--.*?-->/is",'/<style(.*?)>.*?<\/style>/is');
-        $null_tags = array('<script\\1></script>','','<style\\1></style>','');
-        $this->html = trim(preg_replace($clear_tags,$null_tags,$html));
-    }
-
-    //设置队列式标签
-    private function setQueueTags(){
-        if(!preg_match_all("/<(.*?)>/is",$this->html,$matches)){
-            return array();
-        }
-
-        //队列数组
-        $queue_tags = array();
-
-        $find_start_l = 0;
-        foreach($matches[1] as $k => $tag){
-            $r = preg_split("/\s/",trim($tag));
-
-            $full_tag = $matches[0][$k];
-            $start_l = strpos($this->html,$full_tag,$find_start_l);
-            $end_l = $start_l + strlen($full_tag) - 1;
-            $find_start_l = $end_l + 1;
-            $tag_name = array_shift($r);
-
-            $queue_tag = array(
-                'tag' => $tag_name,
-                'start_l' => $start_l,
-                'end_l' => $end_l,
-            );
-
-            //属性不为空设置
-            if(!empty($r)){
-                if(preg_match("/class=(?:\"|\')(.*?)(?:\"|\')/is",$tag,$match)){
-                    $tag = str_replace($match[0],'',$tag);
-                    $r = preg_split("/\s/",trim($tag));
-                    unset($r[0]);
-
-                    array_push($r,$match[0]);
-                }
-                $attrs = $this->getAttrs($r);
-            }else{
-                $attrs = null;
-            }
-
-            $queue_tag['attrs'] = empty($attrs) ? array() : $attrs ;
-
-            array_push($queue_tags,$queue_tag);
-        }
-
-        $this->queue_tags = $queue_tags;
-    }
-
-    //将属性数组字符串转换成键值对
-    private function getAttrs($attr = array()){
-        $r = array();
-        foreach($attr as $v){
-            if(empty($v)){
-                continue;
-            }
-            list($key,$val) = explode('=',$v,2);
-            $r[$key] = empty($val) ? 'true' : trim($val,'"\'');
-        }
-        return $r;
-    }
-
-    //获取标签树结构
-    public function getTagTree(){
-        //标签树结构
-        $tag_tree = array();
-
-        //单个标签
-        $single_tags = array('img', 'input', 'br', 'hr', 'col', 'area', 'link', 'meta', 'frame', 'input', 'param', 'base');
-
-        //插入根树
-        $root_node = array(
-            'tag' => 'root',
-            'children' => array(),
-        );
-        array_push($tag_tree,$root_node);
-
-        //插入子树模块
-        foreach($this->queue_tags as $tag){
-            $tag_name = $tag['tag'];
-            if($tag_name[0] != '/'){
-                //普通标签
-                $tag_node = array(
-                    'tag' => $tag_name,
-                    'children' => array(),
-                );
-                $tag_node = array_merge($tag,$tag_node);
-
-                if(in_array($tag_name,$single_tags)){
-                    //单个标签
-                    array_push($tag_tree[count($tag_tree)-1]['children'],$tag_node);
-                    continue;
-                }
-
-                array_push($tag_tree,$tag_node);
-            }else{
-                //结束标签
-                $prev_end_tag_name = '/'.$tag_tree[count($tag_tree)-1]['tag'];
-                if($prev_end_tag_name == $tag_name){
-                    $tag_node = array_pop($tag_tree);
-                    $tag_node['end_l'] = $tag['end_l']; //重置结束为止为结束标签的位置
-                    array_push($tag_tree[count($tag_tree)-1]['children'],$tag_node);
-                }
-            }
-        }
-
-        return $tag_tree;
-    }
-
-    //获取html
-    public function getHtml(){
-        return $this->html;
     }
 }
