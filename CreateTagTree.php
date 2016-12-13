@@ -19,7 +19,11 @@ class CreateTagTree{
         $html = $match[0];
         $clear_tags = array("/<script(.*?)>.*?<\/script>/is","/<\!--.*?-->/is",'/<style(.*?)>.*?<\/style>/is');
         $null_tags = array('<script\\1></script>','','<style\\1></style>','');
-        $this->html = trim(preg_replace($clear_tags,$null_tags,$html));
+        $html = trim(preg_replace($clear_tags,$null_tags,$html));
+        $html = preg_replace_callback("/<textarea>(.*?)<\/textarea>/is", function($match){
+            return '<textarea>'.htmlspecialchars($match[1]).'</textarea>';
+        }, $html);
+        $this->html = $html;
     }
 
     //设置队列式标签

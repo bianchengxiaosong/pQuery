@@ -1,3 +1,0 @@
-1、README中的错误
-2、<textarea>存在<script>这样的问题</textarea>
-3、环境限制

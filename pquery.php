@@ -24,7 +24,7 @@ class Pquery{
         unset($tags);
     }
 
-    //根据选择器设置符合标签
+    //根据选择器查询后代标签
     public function find($selector = ''){
         $selectors = explode(',', $selector);
         $this->pq_tags = array();
@@ -270,32 +270,14 @@ class TagsBySelector{
 
     //通过属性设置符合的标签
     private function _setTagByAttr($select_level,$attr_key = '',$attr_value = ''){
-        $this->tags_by_attr_obj->setTagTree($this->max_pq_tags);
         if($select_level == 0){
+            $this->tags_by_attr_obj->setFindTagTree($this->max_pq_tags);
             $this->pq_tags = $this->tags_by_attr_obj->getTagByAttrRecur($attr_key,$attr_value);
         }else{
+            $this->tags_by_attr_obj->setTagTree($this->max_pq_tags);
             $this->pq_tags = $this->tags_by_attr_obj->getTagByAttrFor($attr_key,$attr_value);
         }
         $this->max_pq_tags = $this->pq_tags;
-    }
-
-    //设置符合选择的最大标签
-    private function _setMaxPqTagsByTag(){
-        $this->max_pq_tags = array();
-
-        foreach($this->pq_tags as $tag){
-            $is_max = true;
-            foreach($this->max_pq_tags as $max_tag){
-                if($tag['start_l'] > $max_tag['start_l'] && $tag['end_l'] < $max_tag['end_l']){
-                    //不是最大范围
-                    $is_max = false;
-                    break;
-                }
-            }
-            if($is_max == true){
-                array_push($this->max_pq_tags,$tag);
-            }
-        }
     }
 }
 
@@ -303,9 +285,21 @@ class TagsBySelector{
 class TagsByAttr{
     private $tag_tree = array(); //用于筛选的标签树
 
-    //设置用于筛选的标签树
+    //设置用于同级筛选的标签树
     public function setTagTree($tag_tree = array()){
         $this->tag_tree = $tag_tree;
+    }
+
+    //设置用于find子集筛选的标签树
+    public function setFindTagTree($tag_tree = array()){
+        $fined_tag_tree = array(); //用于进行筛选的标签树
+        foreach($tag_tree as $tag){
+            if(!empty($tag['children']) && is_array($tag['children'])){
+                $fined_tag_tree = array_merge($fined_tag_tree,$tag['children']);
+            }
+        }
+        
+        $this->tag_tree = $fined_tag_tree;
     }
 
     //通过递归获取符合属性的标签

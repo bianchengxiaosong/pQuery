@@ -33,7 +33,7 @@ $str = '<!DOCTYPE html>
     </span>
     <div id="div_id2" class="div_class">
         <p>htmls</p>
-        <div>pQuery测试文件</div>
+        <div class="class_a">pQuery测试文件</div>
         <div>pQuery测试文件2</div>
         <a class="class_a" href="cccc">aaaaaaaaaaaaa</a>
     </div>
@@ -54,6 +54,7 @@ $str = '<!DOCTYPE html>
         <li>列表3</li>
     </ul>
     <img src="aaa">
+    <textarea>aaa&ltscript&gtaa   aaa<textarea>bbb</textarea></textarea>
 </body>
 </html>';
 
@@ -63,6 +64,8 @@ include_once('./pquery.php');
 //实例化
 $pquery = new Pquery($str);
 
+var_dump($pquery->find('textarea')->fullhtmls());
+exit;
 //htmls 和 html 方法使用
 var_dump($pquery->find('#div_id')->find('div')->htmls());
 
