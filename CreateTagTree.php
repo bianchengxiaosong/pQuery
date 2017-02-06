@@ -4,13 +4,19 @@ class CreateTagTree{
     private $html = '';
     private $queue_tags = array();
     private $check_queue_tags = array();
-    public function __construct($html = ''){
-        $this->setHtml($html);
+    public function __construct($html = '',$web_format = true){
+        if($web_format == false){
+            //非web格式 为html代码
+            $this->html = trim($html);
+        }else{
+            //web格式 要进行web格式过滤
+            $this->setWebHtml($html,$web_format);
+        }
         $this->setQueueTags();
     }
 
     //设置html内容 用于过滤注释 script style
-    private function setHtml($html = ''){
+    private function setWebHtml($html = ''){
         $html = trim($html); //去空格
         if(empty(stripos('</html>',$html))){
             $html .= '</html>';

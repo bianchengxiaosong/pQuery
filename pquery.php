@@ -15,8 +15,8 @@ class Pquery{
     private $max_pq_tags = array(); //符合选择器对应规则的最大标签
     private $tags_by_selector_obj = null; //通过单线发现属性标签的对象
 
-    public function __construct($html = ''){
-        $tags = new CreateTagTree($html);
+    public function __construct($html = '',$web_format = true){
+        $tags = new CreateTagTree($html,$web_format);
         $this->tag_tree = $tags->getTagTree();
         $this->max_pq_tags = $this->tag_tree;
         $this->html = $tags->getHtml();
