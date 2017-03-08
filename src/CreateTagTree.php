@@ -151,7 +151,7 @@ class CreateTagTree{
                     }
                     if($is_false_tag == false){
                         //不是废标签 而是错误格式的标签
-                        while(!empty($tag_tree)){
+                        while(count($tag_tree) > 1){
                             $tag_node = array_pop($tag_tree);
                             $tag_node['end_l'] = ('/'.$tag_node['tag'] == $tag_name) ? $tag['end_l'] : $tag['start_l'] - 1;
                             array_push($tag_tree[count($tag_tree)-1]['children'],$tag_node);

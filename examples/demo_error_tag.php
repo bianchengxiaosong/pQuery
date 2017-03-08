@@ -6,7 +6,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 //此次demo测试pQuery能够支持非标准化的html标签 即 闭合标签出现错误的问题
 
 //引入pqury的类文件
-include_once('./pquery.php');
+include_once('../src/pquery.php');
 
 $str = '<!DOCTYPE html>
 <html>
