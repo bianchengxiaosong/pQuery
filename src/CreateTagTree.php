@@ -49,7 +49,7 @@ class CreateTagTree{
             $start_l = strpos($this->html,$full_tag,$find_start_l);
             $end_l = $start_l + strlen($full_tag) - 1;
             $find_start_l = $end_l + 1;
-            $tag_name = array_shift($r);
+            $tag_name = strtolower(array_shift($r));
 
             $queue_tag = array(
                 'tag' => $tag_name,
