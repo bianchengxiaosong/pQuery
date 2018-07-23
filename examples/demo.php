@@ -28,6 +28,8 @@ function curlGet($url,$options = array()){
     return $output;
 }
 
+include_once('../../../../vendor/autoload.php');
+
 $str = '<!DOCTYPE html>
 <html>
 <head>
@@ -66,9 +68,6 @@ $str = '<!DOCTYPE html>
     <textarea>aaa&ltscript&gtaa   aaa<textarea>bbb</textarea></textarea>
 </body>
 </html>';
-
-//引入vendor文件
-include_once('../vendor/autoload.php');
 
 //实例化
 $pquery = new Pquery($str);

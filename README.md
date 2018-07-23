@@ -2,6 +2,13 @@
 主要使用jQuery的选择器语法，并支持多层级筛选 用于获取页面某一块的html内容或属性值 并支持页面中出现错误的、未闭合的html标签格式
 比较适合抓取文章内容 url地址 图片地址等操作
 
+安装方式
+	composer require sobc/pquery
+
+引用并实例化方式
+	include_once('./vendor/autoload.php');
+	$pquery = new \sobc\pquery\Pquery($str);
+
 目前支持筛选调用方法为
 	find(选择器语法)
 
@@ -16,7 +23,7 @@
 		[attribute=value]
 
 获取内容方法为
-	$pquery = new pQuery($html);
+	$pquery = new sobc\pquery\Pquery($html);
 	获取多条内容 htmls()
 		$htmls = $pquery->find('.class_p')->find('a')->htmls();
 		$htmls = $pquery->find('.class_p')->find('p')->htmls(function($key,$html){
@@ -48,7 +55,7 @@
 		$attr = $pquery->find('checkbox[checked]')->attr();
 
 支持jQuery的each方法
-	$pquery = new pQuery($html);
+	$pquery = new sobc\pquery\Pquery($html);
 	$r = $pquery->find('a[href]')->each(function($key,$tag){
 		//$key 代表索引
 		//$tag 符合的标签节点
