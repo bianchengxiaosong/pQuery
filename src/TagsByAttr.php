@@ -1,4 +1,6 @@
 <?php
+namespace sobc\pquery;
+
 //通过属性得到对应标签节点的类
 class TagsByAttr{
     private $tag_tree = array(); //用于筛选的标签树

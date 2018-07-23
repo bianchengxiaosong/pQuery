@@ -3,6 +3,8 @@
 header('content-type:text/html;charset=utf-8');
 error_reporting(E_ALL ^ E_NOTICE);
 
+use sobc\pquery\Pquery;
+
 function curlGet($url,$options = array()){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -65,8 +67,8 @@ $str = '<!DOCTYPE html>
 </body>
 </html>';
 
-//引入pqury的类文件
-include_once('../src/Pquery.php');
+//引入vendor文件
+include_once('../vendor/autoload.php');
 
 //实例化
 $pquery = new Pquery($str);

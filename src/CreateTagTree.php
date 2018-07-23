@@ -1,4 +1,6 @@
 <?php
+namespace sobc\pquery;
+
 //解析标签获取标签树的类
 class CreateTagTree{
     private $html = '';

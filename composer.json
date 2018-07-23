@@ -1,0 +1,19 @@
+{
+    "name": "sobc/pquery",
+    "description": "类Jquery 节点选择器的类库",
+    "type": "library",
+    "require": {
+        "php": ">=5.5"
+    },
+    "license": "MIT",
+    "authors": [{
+        "name": "songbingchao",
+        "email": "1847537660@qq.com"
+    }],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "sobc\\pquery\\": "src/"
+        }
+    }
+}

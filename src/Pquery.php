@@ -1,14 +1,10 @@
 <?php
+namespace sobc\pquery;
 /**
  * 主要使用jQuery的筛选器语法 获取页面某一块的html内容或属性值
  * 开发者邮箱 1847537660@qq.com
  * 开发者QQ 1847537660 如有问题 请加QQ联系并备注为pQuery 本人将尽快帮你解决
  */
-//php版query类实现文件
-
-include_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'CreateTagTree.php');
-include_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'TagsByAttr.php');
-include_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'TagsBySelector.php');
 
 class Pquery{
     private $tag_tree = array(); //标签树结构

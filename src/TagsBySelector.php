@@ -1,4 +1,6 @@
 <?php
+namespace sobc\pquery;
+
 //通过单线发现属性标签
 class TagsBySelector{
     private $max_pq_tags = array();
